@@ -5,3 +5,10 @@ Pourquoi?
 
 Pour le plaisir, pour comprendre.
 
+A faire?
+========
+
+- Découpler le framework MVC du coeur.
+- Créer une version REPL
+- Créer une nouvelle lib (libui sdl+sdl-ttf)
+- Refaire objectmemory pour support 32/64 bits
