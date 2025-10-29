@@ -12,3 +12,16 @@ A faire?
 - Créer une version REPL
 - Créer une nouvelle lib (libui sdl+sdl-ttf)
 - Refaire objectmemory pour support 32/64 bits
+- Process preemptif
+
+A pas faire?
+============
+
+- JIT. Garder le bazard simple
+
+Trouver soluce?
+===============
+
+- support namespaces
+- typage fort (strongtalk, java)
+
