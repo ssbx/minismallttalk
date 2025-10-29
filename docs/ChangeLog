@@ -1,0 +1,24 @@
+2025-09-30 Sébastien Serre <x@x.x>
+	
+	Release 0.0.1
+	
+	Reécriture complète en C du code original C++
+
+	* bitblt.c: créé
+	* bitblt.h: créé
+	* scheduler.c: créé
+	* ardware.h: créé
+	* imageswapper.c: créé
+	* interpreter.c: créé
+	* interpreter.h: créé
+	* main.c: créé
+	* minist8.h: créé
+	* objmemory.c: créé
+	* objmemory.h: créé
+	* oops.h: créé
+	* system.c: créé
+	* system.h: créé
+	
+	Il est desormais possible d'interragir avec le système depuis la ligne
+	de commande.
+

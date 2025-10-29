@@ -1,0 +1,2 @@
+editbox.o: editbox.c editbox.h
+showfont.o: showfont.c editbox.h

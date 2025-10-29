@@ -1,0 +1,10 @@
+context.o: context.c context.h
+demo.o: demo.c theme.h types.h editbox.h window.h frame.h layout.h \
+ context.h
+demo2.o: demo2.c editbox.h
+editbox.o: editbox.c editbox.h
+frame.o: frame.c frame.h types.h editbox.h theme.h layout.h context.h
+layout.o: layout.c layout.h types.h editbox.h
+theme.o: theme.c theme.h types.h editbox.h
+window.o: window.c window.h frame.h types.h editbox.h theme.h layout.h \
+ context.h

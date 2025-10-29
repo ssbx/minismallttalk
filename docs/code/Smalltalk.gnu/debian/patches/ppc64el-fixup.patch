@@ -1,0 +1,15 @@
+Description: parts of the program are using 64 bit doubles, and others are using 128 bit doubles on ppc64el.
+ The linker fails to merge the sections together, so lets unify them all.
+
+Author: Gianfranco Costamagna <locutusofborg@debian.org>
+--- gnu-smalltalk-3.2.5.orig/snprintfv/configure.ac
++++ gnu-smalltalk-3.2.5/snprintfv/configure.ac
+@@ -32,6 +32,8 @@ AC_CONFIG_HEADERS(config.h)
+ AC_CONFIG_AUX_DIR(../build-aux)
+ AC_CONFIG_MACRO_DIR(../build-aux)
+ 
++GST_C_LONG_DOUBLE
++
+ AC_ARG_ENABLE(subdir,
+ [  --enable-subdir     used in a package, texinfo+testsuite stripped], ,
+ [enable_subdir=no])

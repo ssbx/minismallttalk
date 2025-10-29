@@ -1,0 +1,28 @@
+diff --git a/packages/vfs/urar b/packages/vfs/urar
+index 622cb4b..aa4c873 100755
+--- a/packages/vfs/urar
++++ b/packages/vfs/urar
+@@ -75,9 +75,6 @@ mcrarfs_mkdir ()
+         (umask 077 && mktemp -d "$TMPDIR/urarXXXXXX") 2>/dev/null
+       ` &&
+       test -n "$dir" && test -d "$dir"
+-    } || {
+-      dir=$TMPDIR/urar$$-$RANDOM
+-      (umask 077 && mkdir "$dir")
+     } || exit $?
+ 
+     cd $dir
+diff --git a/packages/vfs/uzip b/packages/vfs/uzip
+index 33add27..358408c 100755
+--- a/packages/vfs/uzip
++++ b/packages/vfs/uzip
+@@ -90,9 +90,6 @@ mczipfs_mkdir ()
+         (umask 077 && mktemp -d "$TMPDIR/uzipXXXXXX") 2>/dev/null
+       ` &&
+       test -n "$dir" && test -d "$dir"
+-    } || {
+-      dir=$TMPDIR/uzip$$-$RANDOM
+-      (umask 077 && mkdir "$dir")
+     } || exit $?
+ 
+     cd $dir

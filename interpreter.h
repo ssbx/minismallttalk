@@ -1,0 +1,113 @@
+#ifndef _INTERPRETER_H_
+#define _INTERPRETER_H_
+
+int             fetchByte();
+int             getProcPrio(int aProc);
+int             linkLen(int aLinkedList);
+void            Interp_StoreInteger_ofObject_withValue(int fieldIndex,
+                                                       int objectPointer, int);
+int             Interp_FetchInteger_ofObject(int fieldIndex, int objectPointer);
+void            Interp_Transfer_fromIndex_ofObject_toIndex_ofObject(int count,
+                                                                    int
+                                                                    firstFrom,
+                                                                    int, int,
+                                                                    int);
+int             Interp_LowByteOf(int anInteger);
+int             Interp_HighByteOf(int anInteger);
+bool            Interp_IsInLowMemoryCondition();
+int             Interp_StringObjectFor(const char *s);
+int             Interp_GetDisplayBits(int width, int height);
+int             Interp_FetchWord_OfDisplayBits(int wordIndex, int displayBits);
+void            Interp_CheckLowMemoryConditions();
+void            Interp_AsynchronousSignal(int aSemaphore);
+int             instructionPointerOfContext(int contextPointer);
+void            storeInstructionPointerValue_inContext(int value,
+                                                       int contextPointer);
+int             stackPointerOfContext(int contextPointer);
+void            storeStackPointerValue_inContext(int value, int contextPointer);
+int             argumentCountOfBlock(int blockPointer);
+void            fetchContextRegisters();
+bool            isBlockContext(int contextPointer);
+void            storeContextRegisters();
+void            push(int object);
+int             popStack();
+int             stackTop();
+int             stackValue(int offset);
+void            pop(int number);
+void            unPop(int number);
+void            newActiveContext(int aContext);
+int             sender();
+int             caller();
+int             temporary(int offset);
+int             literal(int offset);
+int             hash(int objectPointer);
+bool            lookupMethodInDictionary(int dictionary);
+bool            lookupMethodInClass(int cls);
+int             superclassOf(int classPointer);
+void            createActualMessage();
+int             instanceSpecificationOf(int classPointer);
+bool            isPointers(int classPointer);
+bool            isWords(int classPointer);
+bool            isIndexable(int classPointer);
+int             fixedFieldsOf(int classPointer);
+int             headerOf(int methodPointer);
+int             literal_ofMethod(int offset, int methodPointer);
+int             temporaryCountOf(int methodPointer);
+int             largeContextFlagOf(int methodPointer);
+int             literalCountOf(int methodPointer);
+int             literalCountOfHeader(int headerPointer);
+int             objectPointerCountOf(int methodPointer);
+int             initialInstructionPointerOfMethod(int methodPointer);
+int             flagValueOf(int methodPointer);
+int             fieldIndexOf(int methodPointer);
+int             headerExtensionOf(int methodPointer);
+int             argumentCountOf(int methodPointer);
+int             primitiveIndexOf(int methodPointer);
+int             methodClassOf(int methodPointer);
+void            pushReceiverVariableBytecode();
+void            pushReceiverVariable(int fieldIndex);
+void            pushTemporaryVariableBytecode();
+void            pushTemporaryVariable(int temporaryIndex);
+void            pushLiteralConstantBytecode();
+void            pushLiteralConstant(int literalIndex);
+void            pushLiteralVariableBytecode();
+void            pushLiteralVariable(int literalIndex);
+void            pushReceiverBytecode();
+void            duplicateTopBytecode();
+void            pushActiveContextBytecode();
+void            storeAndPopReceiverVariableBytecode();
+void            storeAndPopTemporaryVariableBytecode();
+void            extendedStoreAndPopBytecode();
+void            extendedStoreBytecode();
+void            popStackBytecode();
+void            jump(int offset);
+void            shortUnconditionalJump();
+void            longUnconditionalJump();
+void            jumpIf_by(int condition, int offset);
+void            sendMustBeBoolean();
+void            shortConditionalJump();
+void            sendLiteralSelectorBytecode();
+void            sendSelector_argumentCount(int selector, int count);
+void            sendSelectorToClass(int classPointer);
+void            findNewMethodInClass(int cls);
+void            initializeMethodCache();
+void            executeNewMethod();
+void            activateNewMethod();
+void            singleExtendedSendBytecode();
+void            doubleExtendedSendBytecode();
+void            singleExtendedSuperBytecode();
+void            doubleExtendedSuperBytecode();
+void            sendSpecialSelectorBytecode();
+void            returnValue_to(int resultPointer, int contextPointer);
+void            returnToActiveContext(int aContext);
+void            nilContextFields();
+void            dispatchOnThisBytecode();
+void            prepareForCollection();
+void            collectionCompleted();
+bool            INTERP_Cycle(bool unlock);
+bool            INTERP_Init();
+char           *Interp_StringFromObject(int stringOrSymbolPointer);
+char           *selectorName(int selector);
+char           *classNameOfObject(int objectPointer);
+char           *className(int classPointer);
+#endif

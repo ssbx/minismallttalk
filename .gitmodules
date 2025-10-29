@@ -1,0 +1,9 @@
+[submodule "external/SDL3"]
+	path = libs/SDL3
+	url = https://github.com/libsdl-org/SDL.git
+[submodule "external/SDL3_ttf"]
+	path = libs/SDL3_ttf
+	url = https://github.com/libsdl-org/SDL_ttf.git
+[submodule "external/dejavu-fonts"]
+	path = libs/dejavu-fonts
+	url = https://github.com/dejavu-fonts/dejavu-fonts.git

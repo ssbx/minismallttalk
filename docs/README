@@ -1,0 +1,25 @@
+Rewrite of smalltalk vm https://github.com/dbanay/Smalltalk from C++ to C.
+
+Pourquoi?
+=========
+
+Au début, pour débugger le fonctionnement des primitives relatives
+au process switching. Il me semble anormal que la VM mouline quand les 
+Process/Semaphore sont au repos.
+
+Bien que le code original soit prore, j'ai décidé de le réécrire en C pour
+faciliter ma comprehenssion.
+
+
+TODO
+====
+
+J'aimerai bien en faire du LGPL, mais je me demande si l'image Xerox Corp à
+bien ça place ici.
+
+BUGS
+====
+
+- a bugged process related to text editing loop infinitely. Removing it fixes 
+  the bug, but interacting recreate another one.
+

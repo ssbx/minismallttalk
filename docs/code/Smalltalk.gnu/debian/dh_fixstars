@@ -1,0 +1,108 @@
+#!/usr/bin/perl -w
+
+=head1 NAME
+
+dh_fixstars - fixes GNU Smalltalk archives (.star)
+
+=cut
+
+use strict;
+use File::Find;
+use Debian::Debhelper::Dh_Lib;
+
+=head1 SYNOPSIS
+
+B<dh_fixstars> [S<I<debhelper options>>]
+
+=head1 DESCRIPTION
+
+dh_fixstars is a debhelper program that is responsible for fixing
+things when using .star files.
+
+Today, it replaces unversioned library names with SONAME library names
+so that the .star file work without the associated -dev package.
+
+For instance, NCurses.star dependency on libncurses.so is replaced with
+a dependency on libncurses.so.5
+
+=cut
+
+init();
+
+my $pwd = `pwd`;
+chomp $pwd;
+
+verbose_print("Loading shlibs...");
+my %shlibdata;
+
+open(SHLIBS, "cat /var/lib/dpkg/info/*.shlibs debian/shlibs.local debian/*/DEBIAN/shlibs 2> /dev/null |");
+
+while (<SHLIBS>) {
+    /(\S+)\s+(\S+)\s+(\w.*)\n?/;
+    $shlibdata{$1} = "$1.so.$2";
+}
+
+close(SHLIBS);
+
+foreach my $package (@{$dh{DOPACKAGES}}) {
+    my $tmp = tmpdir($package);
+
+    find(sub {
+	     return unless -f && !-l && /\.star$/;
+	     fix_star_shlib($tmp, $_);
+	 }, $tmp
+    );
+}
+
+sub fix_star_shlib {
+    my $tmp = shift;
+    my $star_file = shift;
+    my $changed = 0;
+    my @lines = ();
+
+    open(PACKAGEXML, "unzip -p $star_file package.xml |");
+
+    while(my $line = <PACKAGEXML>) {
+	chomp($line);
+
+	# Package that loads a library at runtime, with dlopen()
+	if ($line =~ /<library>(\S+)<\/library>/) {
+	    my $sym = "$pwd/$tmp/usr/lib/gnu-smalltalk/$1.so";
+	    my $lib = $shlibdata{$1};
+
+	    if ($lib) {
+		# Rewrite package.xml for this package
+		$changed = 1;
+		$line =~ s/<library>(\S+)<\/library>/<library>$lib<\/library>/;
+
+	    } else {
+		error("Unknown library \"$1\" in \"$star_file\"!");
+	    }
+	}
+
+	push(@lines, $line);
+    }
+
+    close(PACKAGEXML);
+
+    if ($changed) {
+	open(PACKAGEXML, "> package.xml");
+	print PACKAGEXML join("\n", @lines);
+	close(PACKAGEXML);
+
+	complex_doit("zip -qr $star_file package.xml");
+	doit("rm", "-f", "package.xml");
+    }
+}
+
+=head1 SEE ALSO
+
+L<debhelper(7)>
+
+=head1 AUTHOR
+
+Thomas Girard <thomas.g.girard@free.fr>, heavily based on code from
+Mirco Bauer <meebey@meebey.net> and Eduard Bloch <blade@debian.org>
+for dh_clideps.
+
+=cut

@@ -1,0 +1,88 @@
+/*
+ * Copyright © 2025 Sébastien Serre. All rights reserved.
+ * Copyright © 2020 Dan Banay. All rights reserved.
+ *
+ * This file is part of Minist8.
+ *
+ * Minist8 is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * Minist8 is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Minist8. If not, see <https://www.gnu.org/licenses/>.
+ */
+#include "config.h"
+
+#include <assert.h>
+#include <stdio.h>
+#include <string.h>
+#include "SDL3/SDL.h"
+#include "objectmemory.h"
+#include "hardware.h"
+#include "minist8.h"
+#include "interpreter.h"
+#include "compiledmethods.h"
+#include "contexts.h"
+#include "classes.h"
+#include "routines.h"
+#include "primitives.h"
+
+// registers
+ContextRegisters  R_ctx;
+ClassRegisters    R_cls;
+SchedRegisters    R_sch;
+MemSignalRegister R_mem;
+
+// other globals
+int  G_currentBytecode;
+bool G_successFlag;
+int  G_methodCache[1024];
+int  G_currentDisplay;
+int  G_currentDisplayWidth;
+int  G_currentDisplayHeight;
+int  G_currentCursor;
+
+
+
+bool INTERP_Cycle(bool unlock) {
+  checkProcessSwitch();
+  G_currentBytecode = fetchByte();
+  //fprintf(stderr, "%i", G_currentBytecode);
+  dispatchOnThisBytecode();
+  return false;
+}
+
+bool INTERP_Init() {
+  initializeMethodCache();
+  R_sch.semaphoreIndex = -1;
+#ifdef GC_MARK_SWEEP
+  struct gc_notif_i notif;
+  notif.prepareForCollection = prepareForCollection;
+  notif.collectionCompleted = collectionCompleted;
+  OBJMEM_init(notif);
+#else
+  OBJMEM_init();
+#endif
+  if (!OBJMEM_loadSnapshot(HW_get_image_name()))
+    return false;
+  R_ctx.activeContext = firstContext();
+  OBJMEM_increaseReferencesTo(R_ctx.activeContext);
+  fetchContextRegisters();
+  R_mem.checkLowMemory = false;
+  R_mem.memoryIsLow = false;
+  R_mem.lowSpaceSemaphore = NilPointer;
+  R_mem.oopsLeftLimit = 0;
+  R_mem.wordsLeftLimit = 0;
+  G_currentDisplay = 0;
+  G_currentCursor = 0;
+  G_currentDisplayWidth = 0;
+  G_currentDisplayHeight = 0;
+  return true;
+}
+

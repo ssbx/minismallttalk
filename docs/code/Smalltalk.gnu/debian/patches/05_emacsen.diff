@@ -1,0 +1,31 @@
+diff --git a/smalltalk-mode-init.el.in b/smalltalk-mode-init.el.in
+index 4c7c041..88f16e1 100644
+--- a/smalltalk-mode-init.el.in
++++ b/smalltalk-mode-init.el.in
+@@ -1,5 +1,8 @@
+ ;; Autoload file for smalltalk-mode
+ 
++(if (not (file-exists-p "/usr/share/emacs/site-lisp/gnu-smalltalk-el"))
++    (message "gnu-smalltalk-el removed but not purged, skipping setup")
++
+ ;; duplicate zip files' setup for star files or fall back on
+ ;; archive-mode, which scans file contents to determine type so is
+ ;; safe to use
+@@ -13,8 +16,14 @@
+ 
+ (push '("\\.st\\'" . smalltalk-mode) auto-mode-alist)
+ 
+-(push "\\.star\\'" inhibit-first-line-modes-regexps)
++(push "\\.star\\'" inhibit-local-variables-regexps)
+ 
+-(autoload 'smalltalk-mode "@lispdir@/smalltalk-mode.elc" "" t)
+-@WITH_EMACS_COMINT_TRUE@(autoload 'gst "@lispdir@/gst-mode.elc" "" t)
++(autoload 'smalltalk-mode "smalltalk-mode" "" t)
++(autoload 'gst-mode "gst-mode" "" t)
+ 
++(debian-pkg-add-load-path-item 
++	(concat "/usr/share/"
++		(symbol-name debian-emacs-flavor)
++		"/site-lisp/gnu-smalltalk-el")
++	)
++)

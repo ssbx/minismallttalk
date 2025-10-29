@@ -1,0 +1,13 @@
+diff --git a/doc/tutorial.texi b/doc/tutorial.texi
+index 4624ae9..784d2b4 100644
+--- a/doc/tutorial.texi
++++ b/doc/tutorial.texi
+@@ -3920,7 +3920,7 @@ and keyword selectors:
+    #at:put:
+ @end example
+ 
+-@itemx @t{eval: ``##('' [temps] exprs ``)''}
++@item @t{eval: ``##('' [temps] exprs ``)''}
+ This syntax also has not been used in the tutorial, and results
+ in evaluating an arbitrarily complex expression at compile-time,
+ and substituting the result: for example @code{##(Object allInstances

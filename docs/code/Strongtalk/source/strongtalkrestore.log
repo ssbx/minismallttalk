@@ -1,0 +1,52 @@
+
+"August 18, 2006 -> 6:27:44"!
+
+! (Delta mirrorFor: #Integer) methodsFor: 'benchmarks' !
+benchFib  "Handy send-heavy benchmark"
+	
+"(result // seconds to run) = approx calls per second"
+	" | r t |
+	  t := Time millisecondsToRun: [r := 26 benchFib].
+	  (r * 1000) // t"
+	"138000 on a Mac 8100/100"
+	^ self < 2		ifTrue: [1] 
+		ifFalse: [(self-1) benchFib + (self-2) benchFib + 1]
+! !
+
+"August 18, 2006 -> 6:27:44"!
+
+! (Delta mirrorFor: #Integer) methodsFor: 'benchmarks' !
+benchmark  "Handy bytecode-heavy benchmark"
+	"(500000 // time to run) = approx bytecodes per second"
+	"5000000 // (Time millisecondsToRun: [10 benchmark]) * 1000"
+	"3059000 on a Mac 8100/100"
+    | size flags prime k count |
+    size := 8190.
+    
+1 to: self do:
+        [:iter |       
+ count := 0.
+        flags := (Array new: size) atAllPut: true
+.        1 to: size do:
+            [:i | (flags at: i) ifTrue:
+                [prime := i+1.
+                k := i + prime.
+                [k <= size] whileTrue:
+                    [flags at: k put: false.
+                    k := k + prime].
+                count := count + 1]]].
+    ^ count! !
+
+"August 18, 2006 -> 6:27:44"!
+
+! (Delta mirrorFor: #Integer) methodsFor: 'benchmarks' !
+tinyBenchmarks
+	"Report the results of running the two tiny Squeak benchmarks."
+	"0 tinyBenchmarks"	
+| n t1 t2 r |
+	n := 1.
+	t1 := Time millisecondsToRun: [n benchmark].
+	t2 := Time millisecondsToRun: [r := 28 benchFib].
+	^ ((n * 500000 * 1000) // t1) printString, ' bytecodes/sec; ',
+	  ((r * 1000) // t2) printString, ' sends/sec'
+! !

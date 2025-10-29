@@ -1,0 +1,21 @@
+-> OK frame
+-> OK VBoxLayout
+->    primitives + test
+->    HBoxLayout
+->    integrer editbox.c
+->    vue liste
+
+plus tard
+
+->    label
+->    frame border (sunken/raized)
+->    boutton (label + frame border)
+->    scrollbar
+->    pannedwindow
+->    GridLayout
+->    frame borders sunken raized
+->    + label -> boutons
+->    list/treeview
+->    text widget
+->    scrollbar
+

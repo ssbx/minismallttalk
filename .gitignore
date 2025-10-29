@@ -1,0 +1,13 @@
+*.o
+*.a
+*.swp
+_build
+minist8
+imageswapper
+libui/demo
+libui/demo2
+libui/examples/showfont
+/*.st
+.depend
+/*.h~
+/*.c~

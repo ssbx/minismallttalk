@@ -1,0 +1,14 @@
+List of user-visible changes in minist8
+
+-------------------------------------------------------------------------------
+
+NEWS FROM 0.0.0 to 0.0.1
+
+o   Support Linux/BSD seulement
+o   License LGPL (peut être non correct à cause de "snamshot.im")
+o   Utilisation de getopts et donc, de "short" flags.
+o   Changement du nom de l'executable de "SmallTalk" à "minist8".
+o   Il n'est plus necessaire de signifier le dossier root, par défaut 
+    il s'agit $CWD.
+
+-------------------------------------------------------------------------------

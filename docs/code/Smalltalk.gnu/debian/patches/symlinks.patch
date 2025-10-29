@@ -1,0 +1,19 @@
+Description: Install tools with symlinks instead of hard links, so they work over
+ different binary packages too (e.g. in -browser package and in the main gnu-smalltalk one)
+ - Thanks to both <jcristau> and <myon> for the help!
+
+Bug-Debian: bugs.debian.org/868545
+Author: Gianfranco Costamagna <locutusofborg@debian.org>
+--- gnu-smalltalk-3.2.5.orig/Makefile.am	2019-04-29 13:57:23.662274734 +0200
++++ gnu-smalltalk-3.2.5/Makefile.am	2019-04-29 13:57:33.886274147 +0200
+@@ -146,8 +146,8 @@ uninstall-local::
+ install-exec-hook::
+ 	$(INSTALL_PROGRAM_ENV) $(LIBTOOL) --mode=install $(INSTALL) gst-tool$(EXEEXT) "$(DESTDIR)$(bindir)/gst-load$(EXEEXT)"
+ 	@for i in $(GST_EXTRA_TOOLS); do \
+-	  echo $(LN) -f "$(DESTDIR)$(bindir)/gst-load$(EXEEXT)" "$(DESTDIR)$(bindir)/$$i$(EXEEXT)"; \
+-	  $(LN) -f "$(DESTDIR)$(bindir)/gst-load$(EXEEXT)" "$(DESTDIR)$(bindir)/$$i$(EXEEXT)"; \
++	  echo $(LN) -sf "$(DESTDIR)$(bindir)/gst-load$(EXEEXT)" "$(DESTDIR)$(bindir)/$$i$(EXEEXT)"; \
++	  cd "$(DESTDIR)$(bindir)" && $(LN) -sf "gst-load$(EXEEXT)" "$$i$(EXEEXT)" && cd -; \
+ 	done
+ 
+ nodist_noinst_HEADERS = config.h

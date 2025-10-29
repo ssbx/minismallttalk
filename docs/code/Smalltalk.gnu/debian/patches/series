@@ -1,0 +1,9 @@
+01_rename_to_gnu_smalltalk.diff
+04_fix_image_shebang.diff
+05_emacsen.diff
+06_sdl_debian.diff
+07_fix_texinfo_ftbfs.diff
+08_fix_bashism.diff
+09_tcl_ftbfs.patch
+ppc64el-fixup.patch
+symlinks.patch
